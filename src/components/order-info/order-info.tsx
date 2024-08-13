@@ -10,7 +10,6 @@ import { fetchOrderByNum } from '../../services/order/thunk';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
-  // ok
   const dispatch = useDispatch();
   const id = useParams().number;
   const orderData = useSelector(orderSelector);

@@ -8,7 +8,6 @@ import { fetchFeed } from '../../services/feed/thunk';
 
 export const Feed: FC = () => {
   /** TODO: взять переменную из стора */
-  // ok
   const orders: TOrder[] = useSelector(ordersSelector);
   const dispatch = useDispatch();
 

@@ -5,6 +5,7 @@ import { fetchOrderByNum, fetchOrders, postOrder } from './thunk';
 export interface TOrdersState {
   orders: TOrder[];
   order: TOrder | null;
+  modalData: TOrder | null;
   isLoading: boolean;
   error: string | null | undefined;
 }
@@ -12,6 +13,7 @@ export interface TOrdersState {
 const initialState: TOrdersState = {
   orders: [],
   order: null,
+  modalData: null,
   isLoading: false,
   error: null
 };
@@ -20,11 +22,8 @@ export const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    orderModalData: (state, action: PayloadAction<TOrder | null>) => {
-      state.order = action.payload;
-    },
     clearOrderModalData: (state) => {
-      state.order = null;
+      state.modalData = null;
     }
   },
   extraReducers: (builder) => {
@@ -38,7 +37,7 @@ export const orderSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(postOrder.fulfilled, (state, action) => {
-        state.order = action.payload.order;
+        state.modalData = action.payload.order;
         state.isLoading = false;
       })
 
@@ -71,11 +70,16 @@ export const orderSlice = createSlice({
   selectors: {
     ordersSelector: (state) => state.orders,
     orderSelector: (state) => state.order,
+    modalDataSelector: (state) => state.modalData,
     isLoadingSelector: (state) => state.isLoading
   }
 });
 
 export const { clearOrderModalData } = orderSlice.actions;
-export const { ordersSelector, orderSelector, isLoadingSelector } =
-  orderSlice.selectors;
+export const {
+  ordersSelector,
+  orderSelector,
+  modalDataSelector,
+  isLoadingSelector
+} = orderSlice.selectors;
 export const orderReducer = orderSlice.reducer;

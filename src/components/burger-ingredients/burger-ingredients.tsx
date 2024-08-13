@@ -8,7 +8,6 @@ import { useSelector } from '../../services/store';
 
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
-  // ok
   const ingredients = useSelector(ingredientsSelector);
 
   const buns: TIngredient[] = useMemo(

@@ -13,7 +13,6 @@ import {
 
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
-  // ok
   const isLoading = useSelector(isLoadingSelector);
 
   return (

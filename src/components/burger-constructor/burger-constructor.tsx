@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from '../../services/store';
 import {
   clearOrderModalData,
   isLoadingSelector,
-  orderSelector
+  modalDataSelector
 } from '../../services/order/order';
 import { userSelector } from '../../services/user/user';
 import { useNavigate } from 'react-router-dom';
@@ -17,12 +17,11 @@ import { postOrder } from '../../services/order/thunk';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  // +-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(userSelector);
   const orderRequest = useSelector(isLoadingSelector);
-  const orderModalData = useSelector(orderSelector);
+  const orderModalData = useSelector(modalDataSelector);
   const constructorItems = useSelector(stateSelector);
 
   const data: string[] = [

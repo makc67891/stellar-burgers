@@ -7,7 +7,6 @@ import { fetchOrders } from '../../services/order/thunk';
 
 export const ProfileOrders: FC = () => {
   /** TODO: взять переменную из стора */
-  // ok
   const dispatch = useDispatch();
   const orders: TOrder[] = useSelector(ordersSelector);
 

@@ -6,13 +6,12 @@ import { fetchUpdateApi } from '../../services/user/thunk';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
-  // ok
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
+    name: '',
+    email: '',
     password: ''
   });
 
