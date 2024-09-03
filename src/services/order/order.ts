@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { fetchOrderByNum, fetchOrders, postOrder } from './thunk';
 
@@ -7,7 +7,7 @@ export interface TOrdersState {
   order: TOrder | null;
   modalData: TOrder | null;
   isLoading: boolean;
-  error: string | null | undefined;
+  error: SerializedError | null;
 }
 
 const initialState: TOrdersState = {
@@ -34,7 +34,7 @@ export const orderSlice = createSlice({
       })
       .addCase(postOrder.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(postOrder.fulfilled, (state, action) => {
         state.modalData = action.payload.order;
@@ -47,7 +47,7 @@ export const orderSlice = createSlice({
       })
       .addCase(fetchOrderByNum.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(fetchOrderByNum.fulfilled, (state, action) => {
         state.order = action.payload;
@@ -60,7 +60,7 @@ export const orderSlice = createSlice({
       })
       .addCase(fetchOrders.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
@@ -71,7 +71,8 @@ export const orderSlice = createSlice({
     ordersSelector: (state) => state.orders,
     orderSelector: (state) => state.order,
     modalDataSelector: (state) => state.modalData,
-    isLoadingSelector: (state) => state.isLoading
+    isLoadingSelector: (state) => state.isLoading,
+    errorSelector: (state) => state.error
   }
 });
 
@@ -80,6 +81,7 @@ export const {
   ordersSelector,
   orderSelector,
   modalDataSelector,
-  isLoadingSelector
+  isLoadingSelector,
+  errorSelector
 } = orderSlice.selectors;
 export const orderReducer = orderSlice.reducer;

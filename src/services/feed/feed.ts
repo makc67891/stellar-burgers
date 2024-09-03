@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 import { TOrder, TOrdersData } from '@utils-types';
 import { fetchFeed } from './thunk';
 
@@ -6,7 +6,7 @@ export interface IFeedSlice {
   feed: TOrdersData | null;
   orders: TOrder[];
   isLoading: boolean;
-  error: string | null | undefined;
+  error: SerializedError | null;
 }
 
 export const initialState: IFeedSlice = {
@@ -24,10 +24,11 @@ export const feedSlice = createSlice({
     builder
       .addCase(fetchFeed.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchFeed.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(
         fetchFeed.fulfilled,
@@ -35,16 +36,22 @@ export const feedSlice = createSlice({
           state.feed = action.payload;
           state.orders = action.payload.orders;
           state.isLoading = false;
+          state.error = null;
         }
       );
   },
   selectors: {
     feedSelector: (state) => state.feed,
     ordersSelector: (state) => state.orders,
-    isLoadingSelector: (state) => state.isLoading
+    isLoadingSelector: (state) => state.isLoading,
+    errorSelector: (state) => state.error
   }
 });
 
-export const { feedSelector, ordersSelector, isLoadingSelector } =
-  feedSlice.selectors;
+export const {
+  feedSelector,
+  ordersSelector,
+  isLoadingSelector,
+  errorSelector
+} = feedSlice.selectors;
 export const feedReducer = feedSlice.reducer;

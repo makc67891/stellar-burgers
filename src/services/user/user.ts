@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { SerializedError, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import {
   fetchGetApi,
@@ -11,7 +11,7 @@ interface IUserState {
   user: TUser | null;
   isInit: boolean;
   isAuthChecked: boolean;
-  error: string | null | undefined;
+  error: SerializedError | null;
 }
 
 const initialState: IUserState = {
@@ -47,7 +47,7 @@ export const userSlice = createSlice({
       })
       .addCase(fetchUserRegister.rejected, (state, action) => {
         state.isAuthChecked = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(fetchUserRegister.fulfilled, (state, action) => {
         state.user = action.payload.user;
@@ -61,7 +61,7 @@ export const userSlice = createSlice({
       .addCase(fetchUserLogin.rejected, (state, action) => {
         state.isAuthChecked = false;
         state.isInit = true;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(fetchUserLogin.fulfilled, (state, action) => {
         state.user = action.payload;
@@ -74,7 +74,7 @@ export const userSlice = createSlice({
       })
       .addCase(fetchUserLogout.rejected, (state, action) => {
         state.isAuthChecked = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(fetchUserLogout.fulfilled, (state) => {
         state.isAuthChecked = true;
@@ -85,11 +85,16 @@ export const userSlice = createSlice({
   selectors: {
     userSelector: (state) => state.user,
     authCheckedSelector: (state) => state.isAuthChecked,
-    initSelector: (state) => state.isInit
+    initSelector: (state) => state.isInit,
+    errorSelector: (state) => state.error
   }
 });
 
-export const { userSelector, authCheckedSelector, initSelector } =
-  userSlice.selectors;
+export const {
+  userSelector,
+  authCheckedSelector,
+  initSelector,
+  errorSelector
+} = userSlice.selectors;
 export const { authChecked } = userSlice.actions;
 export const userReducer = userSlice.reducer;

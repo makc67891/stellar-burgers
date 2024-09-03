@@ -5,11 +5,8 @@ import styles from './constructor-page.module.css';
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC, useEffect } from 'react';
-import {
-  ingredientsSelector,
-  isLoadingSelector
-} from '../../services/ingredients/ingredients';
+import { FC } from 'react';
+import { isLoadingSelector } from '../../services/ingredients/ingredients';
 
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
