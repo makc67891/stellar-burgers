@@ -7,7 +7,7 @@ export interface IConstructorState {
   ingredients: TConstructorIngredient[];
 }
 
-const initialState: IConstructorState = {
+export const initialState: IConstructorState = {
   bun: null,
   ingredients: []
 };
@@ -28,8 +28,13 @@ export const constructorSlice = createSlice({
         payload: { ...ingredient, id: uuid() }
       })
     },
-    deleteIngredient: (state, action: PayloadAction<number>) => {
-      state.ingredients.splice(action.payload, 1);
+    deleteIngredient: (
+      state,
+      action: PayloadAction<TConstructorIngredient>
+    ) => {
+      state.ingredients = state.ingredients.filter(
+        (i) => i.id !== action.payload.id
+      );
     },
     moveUpIngredient(state, action) {
       const index = action.payload;
